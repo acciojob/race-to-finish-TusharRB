@@ -6,7 +6,14 @@ const promises = [
   getRandomTime(1, 5)
 ];
 
-Promise.any(promises)
+// Add a fallback promise that always resolves after 6 seconds
+const fallbackPromise = new Promise(resolve => {
+  setTimeout(() => {
+    resolve("Fallback result");
+  }, 6000);
+});
+
+Promise.any([...promises, fallbackPromise])
   .then(result => {
     const outputDiv = document.getElementById("output");
     outputDiv.innerText = result;
